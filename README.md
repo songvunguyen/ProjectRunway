@@ -1,2 +1,2 @@
 # ProjectRunway
-This is an experimential project so there no concrete plan for it right now
+This is an experimential project so there is no concrete plan for it right now
