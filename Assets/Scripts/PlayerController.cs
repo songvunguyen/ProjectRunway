@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    float speed = 10f;
+    float speed = 7f;
     float jumpHeight = 5f;
     Rigidbody2D rb;
     Vector2 moveVal;
@@ -65,5 +65,15 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag == "Ground"){
             isJumping = false;
         }
+
+        if(other.gameObject.tag == "Destruction"){
+            ani.SetTrigger("Die");
+            DeathReturn();
+        }
+    }
+
+    private void DeathReturn(){
+        this.transform.position = new Vector3(0, 2, 0);
+        ani.ResetTrigger("Die");
     }
 }
