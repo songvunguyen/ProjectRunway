@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     float speed = 7f;
-    float jumpHeight = 5f;
+    float jumpForce = 5f;
     Rigidbody2D rb;
     Vector2 moveVal;
     Animator ani;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate() {
         if(moveVal != Vector2.zero){
             if(!isJumping){
-                rb.velocity = new Vector2(moveVal.x * speed, moveVal.y * jumpHeight); 
+                rb.velocity = new Vector2(moveVal.x * speed, moveVal.y * jumpForce); 
                 ani.SetFloat("Speed", Mathf.Abs(rb.velocity.magnitude));  
                 ani.SetBool("IsJumping", isJumping);
             }else{
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(moveVal.x * speed/2, rb.velocity.y);  
             }
 
-            if(moveVal.y > 0 && isJumping != true){
+            if((moveVal.y > 0 && isJumping != true)){
                 isJumping = true;
                 ani.SetBool("IsJumping", isJumping);
             } 
@@ -69,6 +69,12 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag == "Destruction"){
             ani.SetTrigger("Die");
             DeathReturn();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other) {
+         if(other.gameObject.tag == "Ground"){
+            isJumping = true;
         }
     }
 
