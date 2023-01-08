@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Animator ani;
     SpriteRenderer sprite;
     bool isJumping = false;
+    public UIController ui;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +35,8 @@ public class PlayerController : MonoBehaviour
                 ani.SetFloat("Speed", Mathf.Abs(rb.velocity.magnitude));  
                 ani.SetBool("IsJumping", isJumping);
             }else{
-                //if player is in the air, half the speed they can move
-                rb.velocity = new Vector2(moveVal.x * speed/2, rb.velocity.y);  
+                //if player is in the air, 75% the speed they can move
+                rb.velocity = new Vector2(moveVal.x * speed * 0.75f, rb.velocity.y);  
             }
 
             if((moveVal.y > 0 && isJumping != true)){
@@ -80,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
     private void DeathReturn(){
         this.transform.position = new Vector3(-3, 2, 0);
+        ui.Death();
         ani.ResetTrigger("Die");
     }
 }

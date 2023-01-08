@@ -366,6 +366,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 925228500}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Summary
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &249174756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,6 +1123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56cabe1aa2ec2274cbf32329f699249a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathText: {fileID: 2109827342}
+  timerText: {fileID: 1687362550}
+  deathCountText: {fileID: 2059338516}
+  timeRecordText: {fileID: 1253182181}
 --- !u!1 &937982723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4194,7 +4210,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4753,6 +4769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6d826f24bffa940b23d8c843967a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ui: {fileID: 925228500}
 --- !u!95 &1645509604
 Animator:
   serializedVersion: 4
@@ -4847,7 +4864,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00:00
+  m_text: 0:0:0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b7ef0fa8553cb874baba0b443a01874e, type: 2}
   m_sharedMaterial: {fileID: -3438973368947243596, guid: b7ef0fa8553cb874baba0b443a01874e, type: 2}
@@ -5910,7 +5927,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
