@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     float speed = 7f;
-    float jumpForce = 5f;
+    float jumpForce = 7f;
     Rigidbody2D rb;
     Vector2 moveVal;
     Animator ani;
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void DeathReturn(){
-        this.transform.position = new Vector3(0, 2, 0);
+        this.transform.position = new Vector3(-3, 2, 0);
         ani.ResetTrigger("Die");
     }
 }
