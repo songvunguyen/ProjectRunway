@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using System.IO;
+using System.Linq;
 
 public class UIController : MonoBehaviour
 {
@@ -49,5 +51,30 @@ public class UIController : MonoBehaviour
     public void Summary(){
         deathCountText.text = "Death Count: " + death.ToString();
         timeRecordText.text = "Time: " + timerText.text;
+        recordStat();
+    }
+
+    private void recordStat(){
+        string filepath = "Assets/Prefabs/records.txt";
+        List<string> records = File.ReadAllLines(filepath).ToList();
+        string temp = deathCountText.text + "   " + timeRecordText.text;
+
+        for (int i = 0; i < records.Count; i++){
+            //if there is empty record, added new record
+            if(records[i] == "Empty"){
+                records[i] = temp;
+                temp = "";
+                break;
+            }
+        }
+
+        //else, compare current record to the last record and see if it lower
+        if(temp.CompareTo(records[9]) < 0 && temp != ""){
+            records[9] = temp;    
+        }
+
+        //sort all record and fill it in
+        records.Sort();
+        File.WriteAllLines(filepath, records);
     }
 }
