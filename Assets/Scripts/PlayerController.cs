@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Animator ani;
     SpriteRenderer sprite;
     bool isJumping = false;
+    bool isCrouching = false;
     public UIController ui;
     // Start is called before the first frame update
     void Start()
@@ -24,30 +25,40 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //No crouch when release down key
+        if(moveVal.y >= 0){
+            isCrouching = false;
+        }
     }
 
     
     private void FixedUpdate() {
         if(moveVal != Vector2.zero){
-            if(!isJumping){
+            if(!isJumping && !isCrouching){
                 rb.velocity = new Vector2(moveVal.x * speed, moveVal.y * jumpForce); 
                 ani.SetFloat("Speed", Mathf.Abs(rb.velocity.magnitude));  
                 ani.SetBool("IsJumping", isJumping);
+                ani.SetBool("IsCrouching", isCrouching);
             }else{
-                //if player is in the air, 75% the speed they can move
-                rb.velocity = new Vector2(moveVal.x * speed * 0.75f, rb.velocity.y);  
+                //if player is in the air or crouch, 75% the speed they can move
+                rb.velocity = new Vector2(moveVal.x * speed * 0.75f, rb.velocity.y); 
             }
 
             if((moveVal.y > 0 && isJumping != true)){
                 isJumping = true;
                 ani.SetBool("IsJumping", isJumping);
-            } 
+            }
+
+            if((moveVal.y < 0 && isCrouching != true && isJumping != true)){
+                isCrouching = true;
+                ani.SetBool("IsCrouching", isCrouching);
+            }
             
         }else{
             rb.velocity = new Vector2(0, rb.velocity.y); 
             ani.SetFloat("Speed", 0);
             ani.SetBool("IsJumping", isJumping);
+            ani.SetBool("IsCrouching", false);
         }
 
         if(moveVal.x == 1){ 
@@ -63,6 +74,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        //No jump if collide with ground
         if(other.gameObject.tag == "Ground"){
             isJumping = false;
         }
