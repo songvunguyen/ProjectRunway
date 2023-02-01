@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//Code Reference taken from https://gist.github.com/bendux/a660a720c73dbeb4b4eff5f2dd43167b
 public class PlayerController : MonoBehaviour
 {
     float speed = 7f;
     float jumpForce = 7f;
     Rigidbody2D rb;
-    Vector2 moveVal;
+    float moveVal;
     Animator ani;
     SpriteRenderer sprite;
-    bool isJumping = false;
-    bool isCrouching = false;
     public UIController ui;
+    public Transform groundCheck;
+    public LayerMask groundLayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,71 +26,58 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //No crouch when release down key
-        if(moveVal.y >= 0){
-            isCrouching = false;
-        }
+        ani.SetBool("IsJumping", !IsGrounded());
     }
 
     
     private void FixedUpdate() {
-        if(moveVal != Vector2.zero){
-            if(!isJumping && !isCrouching){
-                rb.velocity = new Vector2(moveVal.x * speed, moveVal.y * jumpForce); 
-                ani.SetFloat("Speed", Mathf.Abs(rb.velocity.magnitude));  
-                ani.SetBool("IsJumping", isJumping);
-                ani.SetBool("IsCrouching", isCrouching);
-            }else{
-                //if player is in the air or crouch, 75% the speed they can move
-                rb.velocity = new Vector2(moveVal.x * speed * 0.75f, rb.velocity.y); 
-            }
+        rb.velocity = new Vector2(moveVal * speed, rb.velocity.y);
+        ani.SetFloat("Speed", Mathf.Abs(rb.velocity.magnitude));
 
-            if((moveVal.y > 0 && isJumping != true)){
-                isJumping = true;
-                ani.SetBool("IsJumping", isJumping);
-            }
-
-            if((moveVal.y < 0 && isCrouching != true && isJumping != true)){
-                isCrouching = true;
-                ani.SetBool("IsCrouching", isCrouching);
-            }
-            
-        }else{
-            rb.velocity = new Vector2(0, rb.velocity.y); 
-            ani.SetFloat("Speed", 0);
-            ani.SetBool("IsJumping", isJumping);
-            ani.SetBool("IsCrouching", false);
-        }
-
-        if(moveVal.x == 1){ 
+        if(moveVal == 1){ 
             sprite.flipX = false;
-        }else if(moveVal.x == -1){
+        }else if(moveVal == -1){
             sprite.flipX = true;
         } 
         
     }
 
-    void OnMove(InputValue value){
-        moveVal = value.Get<Vector2>();
+    public void Move(InputAction.CallbackContext context){
+        moveVal = context.ReadValue<Vector2>().x;
+    }
+
+    public void Crounch(InputAction.CallbackContext context){
+        if (context.performed && IsGrounded())
+        {
+            ani.SetBool("IsCrouching", true);   
+        }
+
+        if (context.canceled && IsGrounded())
+        {
+            ani.SetBool("IsCrouching", false);   
+        }
+
+    }
+    public void Jump(InputAction.CallbackContext context){
+        if (context.performed && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);     
+        }
+
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        //No jump if collide with ground
-        if(other.gameObject.tag == "Ground"){
-            isJumping = false;
-        }
-
         if(other.gameObject.tag == "Destruction"){
             ani.SetTrigger("Die");
             DeathReturn();
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other) {
-         if(other.gameObject.tag == "Ground"){
-            isJumping = true;
-        }
-    }
 
     private void DeathReturn(){
         this.transform.position = new Vector3(-3, 2, 0);
