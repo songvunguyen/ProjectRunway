@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     float speed = 7f;
-    float jumpForce = 7f;
+    float jumpForce = 10f;
     Rigidbody2D rb;
     float moveVal;
     Animator ani;
