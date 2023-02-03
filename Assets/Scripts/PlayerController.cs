@@ -6,12 +6,15 @@ using UnityEngine.InputSystem;
 //Code Reference taken from https://gist.github.com/bendux/a660a720c73dbeb4b4eff5f2dd43167b
 public class PlayerController : MonoBehaviour
 {
-    float speed = 7f;
-    float jumpForce = 10f;
+    float speed = 8f;
+    float jumpForce = 8f;
     Rigidbody2D rb;
     float moveVal;
     Animator ani;
     SpriteRenderer sprite;
+    AudioSource[] sounds;
+    AudioSource jumpSound;
+    AudioSource dieSound;
     public UIController ui;
     public Transform groundCheck;
     public LayerMask groundLayer;
@@ -21,6 +24,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        sounds = GetComponents<AudioSource>();
+        jumpSound = sounds[0];
+        dieSound = sounds[1];
     }
 
     // Update is called once per frame
@@ -61,7 +67,8 @@ public class PlayerController : MonoBehaviour
     public void Jump(InputAction.CallbackContext context){
         if (context.performed && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);     
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            jumpSound.Play();     
         }
 
     }
@@ -74,6 +81,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Destruction"){
             ani.SetTrigger("Die");
+            dieSound.Play();
             DeathReturn();
         }
     }

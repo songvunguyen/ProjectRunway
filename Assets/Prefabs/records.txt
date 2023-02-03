@@ -5,6 +5,6 @@ Death Count: 1   Time: 0:0:4
 Death Count: 1   Time: 0:0:5
 Death Count: 1   Time: 0:0:5
 Death Count: 2   Time: 0:0:10
-Death Count: 2   Time: 0:0:8
+Death Count: 2   Time: 0:0:39
 Death Count: 2   Time: 0:0:8
 Death Count: 2   Time: 0:0:8
