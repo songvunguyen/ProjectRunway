@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         ani.SetBool("IsJumping", !IsGrounded());
+        if(transform.position.y < -7)
+        {
+            Die();
+        }
     }
 
     
@@ -79,15 +83,14 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "Destruction"){
-            ani.SetTrigger("Die");
-            dieSound.Play();
-            DeathReturn();
+        if(other.gameObject.tag == "Destruction"){  
+            Die();
         }
     }
 
-
-    private void DeathReturn(){
+    private void Die(){
+        ani.SetTrigger("Die");
+        dieSound.Play();
         this.transform.position = new Vector3(-3, 2, 0);
         ui.Death();
         ani.ResetTrigger("Die");
