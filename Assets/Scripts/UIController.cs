@@ -47,6 +47,7 @@ public class UIController : MonoBehaviour
 
     public void Death(){
         death++;
+        /*SceneManager.LoadScene(SceneManager.GetActiveScene().name);*/
     }
 
     public void Summary(){
