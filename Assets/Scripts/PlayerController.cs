@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
+        if(transform.position.x > 572)
+        {
+            ui.stageComplete();
+        }
     }
 
     

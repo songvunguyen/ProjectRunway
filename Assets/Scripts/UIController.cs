@@ -14,13 +14,16 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI deathText;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI deathCountText;
-     public TextMeshProUGUI timeRecordText;
+    public TextMeshProUGUI timeRecordText;
+
+    public GameObject finishMenu;
 
 
     // Start is called before the first frame update
     void Start()
     {
         timer = 0;
+        ResumeGame();
     }
 
     // Update is called once per frame
@@ -41,7 +44,7 @@ public class UIController : MonoBehaviour
     }
 
     public void MainMenu() {
-        Time.timeScale = 1;
+        
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -78,5 +81,12 @@ public class UIController : MonoBehaviour
         //sort all record and fill it in
         records.Sort();
         File.WriteAllLines(filepath, records);
+    }
+
+    public void stageComplete()
+    {
+        Summary();
+        finishMenu.SetActive(true);
+        PauseGame();
     }
 }
