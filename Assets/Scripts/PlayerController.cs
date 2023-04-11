@@ -37,10 +37,7 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
-        if(transform.position.x > 572)
-        {
-            ui.stageComplete();
-        }
+     
     }
 
     
@@ -89,6 +86,14 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Destruction"){  
             Die();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.name == "flag")
+        {
+            ui.stageComplete();
         }
     }
 
